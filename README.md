@@ -8,27 +8,39 @@ See: http://php.net/manual/en/language.types.boolean.php
 
 The package is installed as an mu-plugin, which is then autoloaded by the roots/bedrock mu-plugin autoloader.
 
-**_WARNING: This plugin assumes the rest of the values exist & will hijack PHPMailer all together if `WP_MAIL_SMTP_AUTH` is `true` - even if you don't provide the rest of the credentials. Which could end up disabling email from your wordpress site if you don't configure it properly._**
+**_WARNING:_ This plugin assumes the rest of the values exist & could override your existing mail configuration all together if `WP_MAIL_SMTP_AUTH` is `true` and the rest of the configuration is empty or incorrect. You could disable email from your wordpress site if you don't configure it properly.**
 
 
 ## Installation
 
-Require the package with Composer.
+Add the repository to your composer.json file.
+```json
+  "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/hackur/bedrock-env-mailer"
+      }
+    ]
 ```
+
+Require the package with Composer.
+```bash
 composer require hackur/bedrock-env-mailer
 ```
 Install the package and set your `WP_MAIL_SMTP_AUTH` to `true` - then specify the rest of your SMTP credentials as seen below.
 
-## Example `.env` Snippet for Gmail SMTP
+## Example Snippet for Gmail SMTP
 
 ```YAML
-# ... Other Environment Specific Data Such as DB Credentials ...
+# ... ^ Other Environment Specific Data Such as DB Credentials ^ ...
 
 WP_MAIL_SMTP_AUTH='true'
-WP_MAIL_HOST='mail.google.com'
-WP_MAIL_PORT='587'
-WP_MAIL_USERNAME='your.email@gmail.com'
-WP_MAIL_PASSWORD='your.high.security.password'
+WP_MAIL_SMTP_USERNAME='your.email@gmail.com'
+WP_MAIL_SMTP_PASSWORD='your.high.security.password'
+WP_MAIL_SMTP_HOST='mail.google.com'
+WP_MAIL_SMTP_PORT='587'
+WP_MAIL_SMTP_SECURE='tls'
+WP_MAIL_SMTP_DEBUG='0'
 ```
 
 ### Quick Primer on how PHP & Bedrock Use Environment Variables

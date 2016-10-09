@@ -16,15 +16,31 @@
  * Text Domain: bedrock-env-mailer
  */
 
-defined('ABSPATH') or die('This file cannot be visited directly.');
+defined( 'ABSPATH' ) or die( 'This file cannot be visited directly.' );
 
-if (env('WP_MAIL_SMTP_AUTH')) {
-    add_action('phpmailer_init', function (PHPMailer $phpmailer) {
+if ( env( 'WP_MAIL_FROM' ) ) {
+
+    add_filter( 'wp_mail_from', function () {
+        return env( 'WP_MAIL_FROM' );
+    } );
+
+    add_filter( 'wp_mail_from_name', function () {
+        return env( 'WP_MAIL_FROM_NAME' ) ? env( 'WP_MAIL_FROM_NAME' ) : 'WordPress Email System';
+    } );
+
+}
+
+if ( env( 'WP_MAIL_SMTP_AUTH' ) ) {
+
+    add_action( 'phpmailer_init', function ( PHPMailer $phpmailer ) {
         $phpmailer->isSMTP();
-        $phpmailer->SMTPAuth = true;
-        $phpmailer->Host     = env('WP_MAIL_HOST');
-        $phpmailer->Port     = env('WP_MAIL_PORT');
-        $phpmailer->Username = env('WP_MAIL_USERNAME');
-        $phpmailer->Password = env('WP_MAIL_PASSWORD');
-    }, 999);
+        $phpmailer->SMTPAuth   = true;
+        $phpmailer->Username   = env( 'WP_MAIL_SMTP_USERNAME' );
+        $phpmailer->Password   = env( 'WP_MAIL_SMTP_PASSWORD' );
+        $phpmailer->Host       = env( 'WP_MAIL_SMTP_HOST' );
+        $phpmailer->Port       = env( 'WP_MAIL_SMTP_PORT' );
+        $phpmailer->SMTPSecure = env( 'WP_MAIL_SMTP_SECURE' );
+        $phpmailer->SMTPDebug  = env( 'WP_MAIL_SMTP_DEBUG' );
+    }, 999 );
+
 }
