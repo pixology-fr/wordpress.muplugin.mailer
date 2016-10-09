@@ -1,42 +1,56 @@
-# Bedrock Mailtrap
+# Bedrock Env Mailer
 
-A [Mailtrap](https://mailtrap.io/) plugin for [Roots Bedrock](https://github.com/roots/bedrock/).
+This plugin is a simple always-on integration that hijacks emails as they are being sent by wordpress's PHPMailer library.
 
-## Elevator
+You have set your `WP_MAIL_SMTP_AUTH` environment variable to a value that PHP considers to be true. This can get weird with PHP, so be careful and read the docs.
 
-Don't let those emails get sent to real people from your non-production environments! We still want to see those emails and make sure that they are sent and are looking good though.  
+See: http://php.net/manual/en/language.types.boolean.php
 
-**Enter: Mailtrap**.  Mailtrap is an email service for just this. With Mailtrap, you can setup as many target inboxes as you want, for different projects, etc.  When mail is sent there, you can view it in your browser, as if it had been sent to you!
+The package is installed as an mu-plugin, which is then autoloaded by the roots/bedrock mu-plugin autoloader.
 
-## Elevator (cont.)
+**_WARNING: This plugin assumes the rest of the values exist & will hijack PHPMailer all together if `WP_MAIL_SMTP_AUTH` is `true` - even if you don't provide the rest of the credentials. Which could end up disabling email from your wordpress site if you don't configure it properly._**
 
-This plugin is a simple always-on integration, which merely hijacks emails as they are being sent from your website if it is a non-production environment.
-
-Designed for Bedrock WordPress installs, the package is installed as an mu-plugin, which is then autoloaded by the Bedrock mu-plugin autoloader.
-Simply install this package, set your Mailtrap credentials, and you're done.
 
 ## Installation
 
 Require the package with Composer.
 ```
-composer require aaemnnosttv/bedrock-mailtrap:^1.0
+composer require hackur/bedrock-env-mailer
+```
+Install the package and set your `WP_MAIL_SMTP_AUTH` to `true` - then specify the rest of your SMTP credentials as seen below.
+
+## Example `.env` Snippet for Gmail SMTP
+
+```YAML
+# ... Other Environment Specific Data Such as DB Credentials ...
+
+WP_MAIL_SMTP_AUTH='true'
+WP_MAIL_HOST='mail.google.com'
+WP_MAIL_PORT='587'
+WP_MAIL_USERNAME='your.email@gmail.com'
+WP_MAIL_PASSWORD='your.high.security.password'
 ```
 
-Set your Mailtrap credentials in your project's `.env` file like so
-```
-MAILTRAP_USER=xxxxxxxxxxxxxx
-MAILTRAP_PASS=xxxxxxxxxxxxxx
-```
+### Quick Primer on how PHP & Bedrock Use Environment Variables
+Bedrock uses [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv) to parse key/value pairs from the `.env` file which is typically in your `.gitignore` and has different values for different environments (i.e. development, staging, production). Then, it uses [oscarotero/env](https://github.com/oscarotero/env) to provide a helper method `env('ENV_VARIABLE')` to retrieve the data from the current environment.
 
-That's it.  Whenever your `WP_ENV` is not equal to `production`, your emails will be sent to Mailtrap instead.
+You can set your `WP_MAIL_***` SMTP credentials in your `.env` file or by [using other methods of setting environment variables](https://github.com/vlucas/phpdotenv#php-dotenv) that PHP will recognize.
 
-## Considerations
+For instance, Heroku allows you to specify PHP_ENV variables for an app directly through their dashboard and CLI interfaces rather than having to manually create a `.env` file on their server. The data is retrieved using the `env()` helper method just the same.
 
-As long as the environment condition is true, mail will be attempted to be sent to Mailtrap.  So, if you forget to add your credentials to the environment file, it will still be sent to Mailtrap, the email will just not make it to your account/inbox.
+
+### Credits
+I came across this [aaemnnosttv/bedrock-mailtrap](https://github.com/aaemnnosttv/bedrock-mailtrap) package and figured I'd fork it and use it as a starting point to get around [an issue](https://github.com/Automattic/vip-quickstart/issues/512#issue-165799484) I was having with a fresh install of [wp-core 4.6.0](https://core.trac.wordpress.org/ticket/25239) on Bedrock.
+
+I left his important disclaimer below - smart advice.
 
 ### IMPORTANT
 **THIS DOES NOT WORK WITH MAIL SENT USING THE HTTP API**
-If you use a transactional mail service like Mandrill, Mailgun, or the like, there is a good chance that you will need to deactivate that plugin in your non-production environments in order for this to work.  (You may consider using something like [WP Plugin Activation Manifest](https://github.com/PrimeTimeCode/wp-plugin-activation-manifest) to do this automatically)
-Most of these plugins have the option of sending mail through their service using SMTP or their API.  If you have the option, choose sending via SMTP as it should be compatible.  Don't take my word for it, test for yourself.
 
-**As with anything, always thoroughly test this under safe circumstances first before trusting it with mail that you really do not want to be sent.**
+If you use a transactional mail service like Mandrill, Mailgun, or the like, there is a good chance that you will need to deactivate that plugin in environments where you expect this to work. The plugin filter is set to have low priority.
+
+You may want to consider using something like [WP Plugin Activation Manifest](https://github.com/PrimeTimeCode/wp-plugin-activation-manifest) to do this automatically.
+
+Most of these plugins have the option of sending mail through their service using SMTP or their API. If you have the option, choose sending via SMTP as it should work just as well. Don't take my word for it, test for yourself.
+
+**As with anything, always thoroughly test this under safe circumstances first before trusting this package in a production environment.**

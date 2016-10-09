@@ -1,12 +1,12 @@
 {
-    "name": "aaemnnosttv/bedrock-mailtrap",
-    "description": "Capture outgoing mail in non-production environments with Mailtrap for Roots Bedrock WordPress installs.",
+    "name": "hackur/bedrock-env-mailer",
+    "description": "Use the pre-existing env() shortcut method to overwrite your PHPMailer connection details manually through environment variables. Rewrote and forked https://github.com/aaemnnosttv/bedrock-mailtrap since it was specific to mailtrap and I wanted to configure PHPMailer server credentials via environment variables for dev, staging, and production.",
     "type": "wordpress-muplugin",
     "license": "MIT",
     "authors": [
         {
-            "name": "Evan Mattson",
-            "email": "me@aaemnnost.tv"
+            "name": "Jeremy Sarda",
+            "email": "jcsarda@gmail.com"
         }
     ],
     "require": {
