@@ -30,4 +30,5 @@ add_action( 'phpmailer_init', function ( PHPMailer $phpmailer ) {
     $phpmailer->Port       = env( 'WP_MAIL_SMTP_PORT' );
     $phpmailer->SMTPSecure = env( 'WP_MAIL_SMTP_SECURE' );
     $phpmailer->SMTPDebug  = env( 'WP_MAIL_SMTP_DEBUG' );
+    $phpmailer->From       = env( 'WP_MAIL_SMTP_FROM' );
 }, 999 );
