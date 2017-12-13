@@ -1,14 +1,14 @@
 {
-  "name": "hackur/bedrock-env-mailer",
+  "name": "sbaerlocher/mailer",
   "description": "Use the pre-existing env() shortcut method to overwrite your PHPMailer connection details manually through environment variables. Rewrote and forked https://github.com/aaemnnosttv/bedrock-mailtrap since it was specific to mailtrap and I wanted to configure PHPMailer server credentials via environment variables for dev, staging, and production.",
-  "homepage": "https://github.com/hackur/bedrock-env-mailer",
+  "homepage": "https://github.com/sbaerlocher/wordpress.muplugin.mailer",
   "type": "wordpress-muplugin",
   "license": "MIT",
   "authors": [
     {
-      "name": "Jeremy Sarda",
-      "email": "jcsarda@gmail.com",
-      "homepage": "https://github.com/hackur"
+      "name": "Simon Bärlocher",
+      "email": "s.baerlocher@sbaerlocher.ch",
+      "homepage": "https://github.com/sbaerlocher"
     }
   ],
   "require": {
@@ -32,7 +32,6 @@
       "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
       "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
       "web/app/themes/{$name}/": ["type:wordpress-theme"]
-    },
-    "wordpress-install-dir": "web/wp"
+    }
   }
 }
