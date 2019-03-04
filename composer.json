@@ -1,5 +1,5 @@
 {
-  "name": "sbaerlocher/mailer",
+  "name": "pixology-fr/mailer",
   "description": "Use the pre-existing env() shortcut method to overwrite your PHPMailer connection details manually through environment variables. Rewrote and forked https://github.com/aaemnnosttv/bedrock-mailtrap since it was specific to mailtrap and I wanted to configure PHPMailer server credentials via environment variables for dev, staging, and production.",
   "homepage": "https://github.com/sbaerlocher/wordpress.muplugin.mailer",
   "type": "wordpress-muplugin",
