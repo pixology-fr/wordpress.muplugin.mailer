@@ -18,7 +18,7 @@ Add the repository to your composer.json file.
   "repositories": [
       {
         "type": "vcs",
-        "url": "https://github.com/sbaerlocher/wordpress.muplugin.mailer"
+        "url": "https://github.com/pixology-fr/wordpress.muplugin.mailer"
       }
     ]
 ```
