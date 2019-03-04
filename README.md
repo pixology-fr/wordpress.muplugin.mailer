@@ -26,7 +26,7 @@ Add the repository to your composer.json file.
 Require the package with Composer.
 
 ```bash
-composer require sbaerlocher/mailer
+composer require pixology-fr/mailer
 ```
 
 Install the package and set your `WP_MAIL_SMTP_AUTH` to `true` - then specify the rest of your SMTP credentials as seen below.
